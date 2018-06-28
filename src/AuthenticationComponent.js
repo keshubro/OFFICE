@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Ex from './Example';
 import './centered.css';
 import First from './FirstComponent';
-import cookie from 'react-cookies'
+import cookie from 'react-cookies';
+import Cookies from 'universal-cookie';
+
 
 class Authentication extends Component
 {
@@ -17,7 +19,9 @@ class Authentication extends Component
         data: null,
         len: null,
         valid: false,
-        x: 0
+        x: 0,
+        email: null,
+        cookies: new Cookies
     };
   }
 
@@ -40,9 +44,21 @@ class Authentication extends Component
   handleSubmit(event) {
      //alert('A name was submitted: ' + this.state.value);
 
+
+      // console.log(cookies.get('myCat')); // Pacman
+
      this.state.data.map((dd) =>
-       dd.name === this.state.value ? this.setState({valid: true, x: 1}) : this.setState({x: 2, value: null}));
-       //x=2 if invalid user, x=1 for valid, x=0 default
+     {
+       if(dd.name === this.state.value)
+       {
+         this.setState({valid: true, x: 1, value: dd.name, email: dd.email});
+
+       }
+       // else{
+       //   this.setState({x: 2, value: null, email: null});
+       // }
+     }
+   );
 
 
        }
@@ -60,7 +76,8 @@ class Authentication extends Component
     //Default Button
     if(this.state.data !== null && this.state.x===0)
     {
-
+      const name = this.state.value;
+       this.state.cookies.set('name', this.state.value, { path: '/' });
 
     console.log(this.state.x);
     console.log(this.state.value);
@@ -81,6 +98,12 @@ class Authentication extends Component
   //Button after invalid input
   if(this.state.x === 2)
   {
+    const name = this.state.value;
+    const email = this.state.email;
+     this.state.cookies.set('name', this.state.value, { path: '/' });
+     this.state.cookies.set('email', this.state.email, { path: '/' });
+
+
     return(
       <div className = "centered_div">
       <form onSubmit={this.handleSubmit}>
@@ -99,6 +122,10 @@ class Authentication extends Component
   if(this.state.data !== null && this.state.valid === true)
   {
 
+      console.log("KK"+name);
+    const name = this.state.value;
+     this.state.cookies.set('name', this.state.value, { path: '/' });
+     this.state.cookies.set('email', this.state.email, { path: '/' });
     return(<Valid />);
   }
 
