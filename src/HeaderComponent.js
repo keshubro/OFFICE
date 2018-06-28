@@ -18,10 +18,13 @@ class NavbarFeatures extends React.Component {
                           <NavItem>
                               <NavLink className="nav-link"  to='/login'><span className="fa fa-home fa-lg"></span> Login</NavLink>
                           </NavItem>
-
+                          <NavItem>
+                              <NavLink className="nav-link" to='/details'><span className="fa fa-list fa-lg"></span> Events</NavLink>
+                          </NavItem>
                           <NavItem>
                               <NavLink className="nav-link" to='/profile'><span className="fa fa-user fa-lg"></span> Profile</NavLink>
                           </NavItem>
+
                    </Nav>
                 </Navbar>
 

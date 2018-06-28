@@ -4,7 +4,7 @@ import './centered.css';
 import First from './FirstComponent';
 import cookie from 'react-cookies';
 import Cookies from 'universal-cookie';
-
+import { Link } from 'react-router-dom';
 
 class Authentication extends Component
 {
@@ -88,8 +88,7 @@ class Authentication extends Component
            Name:
            <input type="text" value={this.state.value} onChange={this.handleChange}/>
          </label>
-
-         <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" />
 
        </form>
     );
@@ -126,6 +125,7 @@ class Authentication extends Component
     const name = this.state.value;
      this.state.cookies.set('name', this.state.value, { path: '/' });
      this.state.cookies.set('email', this.state.email, { path: '/' });
+
     return(<Valid />);
   }
 
@@ -138,7 +138,7 @@ class Authentication extends Component
 function Valid()
 {
   return(
-    <div className = "centered_div"><First /></div>
+    <Link to = "/details">SHOW EVENTS</Link>
   );
 }
 

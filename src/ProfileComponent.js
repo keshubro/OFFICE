@@ -35,8 +35,10 @@ class Profile extends Component
     const name = cookies.get('name');
     const email = cookies.get('email');
     console.log(name);
-    if(name != null)
+    if(name != 'null')
     {
+      console.log("Not null");
+
       return(
 
         <Card className = "col-3 mt-5 centered_div">
@@ -49,7 +51,9 @@ class Profile extends Component
       );
     }
 
-    else if(name == null){
+    else if(name == 'null'){
+      console.log("NULL");
+
     return(
       <div>You are not logged in</div>
     );}

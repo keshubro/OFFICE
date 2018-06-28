@@ -28,6 +28,7 @@ class Main extends Component
 
         <Switch>
             <Route path = '/login' component = {LoginPage} />
+            <Route exact path = '/details' component = {First} />
             <Route path = '/profile' component = {Profile} />
             <Redirect to = '/login' />
         </Switch>

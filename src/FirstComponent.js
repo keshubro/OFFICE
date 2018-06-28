@@ -1,9 +1,11 @@
 //Have to implement show less for data and assigned to
-
+//PATH = '/details'
 
 import React, { Component } from 'react';
 import Second from './SecondComponent';
 import './centered.css';
+import Cookies from 'universal-cookie';
+
 
 class First extends Component
 {
@@ -23,7 +25,8 @@ class First extends Component
 			dataClicked: true,
 			assClicked: true,
 			dataButtonText: "Show More",
-			assButtonText: "Show More"
+			assButtonText: "Show More",
+			cookies: new Cookies
 		};
 	}
 
@@ -77,6 +80,7 @@ class First extends Component
 
 	render()
 	{
+				var name =this.state.cookies.get('name');
 				var listItems, listValues; var keys;var extraKeys; var extraValues;
 				var val; var text; var ll;
 
@@ -84,6 +88,7 @@ class First extends Component
 				if(this.state.data[0] != null)
 				{
 					console.log(this.state.data);
+					console.log("keshav" + this.state.cookies.get('name'));
 
 						val = Object.values(this.state.data[0]);
 					  keys = Object.keys(this.state.data[0]);
@@ -98,6 +103,8 @@ class First extends Component
 						  keys = Object.keys(d);
 							extraKeys = keys.splice(4,2);
 							extraValues = val.splice(4,2);
+
+							console.log("INside"+ this.state.cookies.get('name'));
 
 							return(
 
@@ -117,15 +124,34 @@ class First extends Component
 
 					});
 
+					console.log("Details : "+ this.state.cookies.get('name'));
+
+
+					if(this.state.cookies.get('name') == 'null')
+					{
+						console.log("NUll Detail");
+						return(
+
+							<div>You arent logged in</div>
+
+						);
+
+					}
+
+					else if(this.state.cookies.get('name') != 'null'){
+						console.log("Not null detail");
 					return(
 
 						<div>{dd}</div>
 
 					);
+				}
+
+
 
 
 				}
-				return(<div>Failed To Load !!</div>);
+				return(<div>Loading...</div>);
 		}
 	}
 
