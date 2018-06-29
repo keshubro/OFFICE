@@ -7,3 +7,19 @@
    margin-left: -(X/2)u;
    margin-top: -(Y/2)u;
 }
+table, th, td {
+    border: 1px solid black;
+    
+    text-align: center;
+    width: 70%;
+}
+ta{
+    border: 1px solid black;
+    
+    text-align: center;
+    width: 70%;
+}
+.text_center
+{
+    text-align: center;
+}
