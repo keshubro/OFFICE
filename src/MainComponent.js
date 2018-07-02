@@ -5,11 +5,13 @@ import Authentication from './AuthenticationComponent';
 import First from './FirstComponent';
 import NavbarFeatures from './HeaderComponent';
 import Profile from './ProfileComponent';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 class Main extends Component
 {
   render()
   {
+    const theme = createMuiTheme();
 
     console.log("in main");
 
@@ -26,12 +28,16 @@ class Main extends Component
 
         <NavbarFeatures />
 
+        <MuiThemeProvider theme={theme}>
         <Switch>
             <Route path = '/login' component = {LoginPage} />
+            
             <Route exact path = '/details' component = {First} />
+            
             <Route path = '/profile' component = {Profile} />
             <Redirect to = '/login' />
         </Switch>
+        </MuiThemeProvider>
       </div>
     );
   }
