@@ -6,6 +6,8 @@ import First from './FirstComponent';
 import NavbarFeatures from './HeaderComponent';
 import Profile from './ProfileComponent';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Users from './UsersComponent';
+import EventsFilter from './EventsFilterComponent';
 
 class Main extends Component
 {
@@ -35,6 +37,8 @@ class Main extends Component
             <Route exact path = '/details' component = {First} />
             
             <Route path = '/profile' component = {Profile} />
+            <Route path = '/users' component = {Users} />
+            <Route path = '/details/:eventId' component = {EventsFilter} />
             <Redirect to = '/login' />
         </Switch>
         </MuiThemeProvider>

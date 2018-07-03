@@ -10,7 +10,7 @@ class NavbarFeatures extends React.Component {
 
     render() {
         return (
-                <Navbar color="indigo" dark expand="md" scrolling>
+                <Navbar color="indigo" dark expand="sm">
                     <NavbarBrand href="/">
                         <strong>Edelweiss</strong>
                     </NavbarBrand>
@@ -22,7 +22,10 @@ class NavbarFeatures extends React.Component {
                               <NavLink className="nav-link" to='/details'><span className="fa fa-list fa-lg"></span> Events</NavLink>
                           </NavItem>
                           <NavItem>
-                              <NavLink className="nav-link" to='/profile'><span className="fa fa-user fa-lg"></span> Profile</NavLink>
+                              <NavLink className="nav-link" to='/profile'><span className="fa fa-info fa-lg"></span> Profile</NavLink>
+                          </NavItem>
+                          <NavItem>
+                              <NavLink className="nav-link" to='/users'><span className="fa fa-user fa-lg"></span> Users</NavLink>
                           </NavItem>
 
                    </Nav>

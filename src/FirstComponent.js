@@ -12,6 +12,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import EventsFilter from './EventsFilterComponent';
+
 
 class First extends Component
 {
@@ -24,14 +27,17 @@ class First extends Component
 		this.state = {
 			data: null,
 			len: null,
-			cookies: new Cookies
+			cookies: new Cookies,
+			events: null,
+			evlen: null
 		};
 	}
 	
-	handleCellClick (rowNumber, columnNumber, evt) {
-	console.log("activityId", evt.target.dataset.myRowIdentifier);
+	handleClick(e)
+	{
+		console.log("clicked");
 	}
-	  
+	
     
     componentDidMount()
 	{
@@ -40,7 +46,14 @@ class First extends Component
 	    .then(results =>
 	      results.json()
 	    )
-	    .then(data => this.setState({data: data, len: data.length}));
+		.then(data => this.setState({data: data, len: data.length}));
+		
+
+		fetch('http://203.17.194.45/eventApp/events/typeAgg')
+	    .then(results =>
+	      results.json()
+	    )
+	    .then(data => this.setState({events: data, evlen: data.length}));
     }
     
     render()
@@ -52,7 +65,11 @@ class First extends Component
         var extraDatakeys; var extraDatavalues; var extraAsskeys; var extraAssvalues;
 		var valuesMapped; var ob; var ob1;
 		
-
+		if(this.state.events !== null)
+        {
+            console.log("Events Filter");
+            console.log(this.state.events[0].id);
+        }
 
         if(this.state.data != null)
 		{
@@ -62,19 +79,19 @@ class First extends Component
                 keys = Object.keys(d);
                 extraKeys = keys.splice(4,2);
 				extraValues = val.splice(4,2);
-				console.log("values" +extraValues);
+				
 
 				if(extraValues[0] !== null && typeof extraValues[0] === 'object'){
-					console.log("object");
+					
 					ob = <ExtractData values = {extraValues[0]} />
 				}
 
 				else{
-					ob = extraValues[0];
+					ob = <div>{extraValues[0]}</div>;
 				}
 
 				if(extraValues[1] !== null && typeof extraValues[1] === 'object'){
-					console.log("object");
+					
 					ob1 = <ExtractAss values = {extraValues[1]} />
 				}
 
@@ -93,7 +110,7 @@ class First extends Component
 							{ob}
 						</TableCell>
 						
-						<TableCell>
+						<TableCell >
 							{ob1}
 						</TableCell>
 					</TableRow>
@@ -112,29 +129,49 @@ class First extends Component
 
             }
 
-            else if(this.state.cookies.get('name') != 'null'){
-                    
+            else if(this.state.cookies.get('name') != 'null' && this.state.events !== null){
+				
+				
                 return(
-					
-                    <Paper>
-						<Table onCellClick={this.handleCellClick}> 
-						<TableHead>
-							<TableRow>
-								<TableCell>ID</TableCell>
-								<TableCell>TYPE</TableCell>
-								<TableCell >SEVERITY</TableCell>
-								<TableCell >EVENT TIME</TableCell>
-								<TableCell >DATA</TableCell>
-								<TableCell >ASSIGNED TO</TableCell>
-							</TableRow>
-						</TableHead>
+					<div>
+						<Navbar color="light" light expand="sm">
+							<Nav className="ml-auto" navbar>
+								
+								<UncontrolledDropdown setActiveFromChild direction = "left">
+								<DropdownToggle tag="a" className="nav-link" caret>
+									Filter By Events
+								</DropdownToggle>
+								<DropdownMenu>
+
+									<DropdownItem tag="a" href={`/details/${this.state.events[0].id}`} active>tt</DropdownItem>
+									<DropdownItem tag="a" href={`/details/${this.state.events[1].id}`} >ee</DropdownItem>
+									<DropdownItem tag="a" href={`/details/${this.state.events[2].id}`}>xx</DropdownItem>
+								
+								</DropdownMenu>
+								</UncontrolledDropdown>
+							</Nav>
+						</Navbar>
+
+						<Table > 
+							<TableHead>
+								<TableRow>
+									<TableCell>ID</TableCell>
+									<TableCell>TYPE 
+										
+									</TableCell>
+									<TableCell >SEVERITY</TableCell>
+									<TableCell >EVENT TIME</TableCell>
+									<TableCell >DATA</TableCell>
+									<TableCell >ASSIGNED TO</TableCell>
+								</TableRow>
+							</TableHead>
 							<TableBody>
 								
 								{dd}
 								
 							</TableBody>
 						</Table>
-					</Paper>
+					</div>
 					
 
                 );
@@ -171,7 +208,7 @@ function ExtractData(props)
 		return(
 
 			<div>
-				<h5>{keys[x]}	:	{value}</h5>
+				<div><b>{keys[x]}	:	</b> {value}</div>
 
 
 			</div>
@@ -199,7 +236,7 @@ function ExtractAss(props)
 		return(
 
 			<div>
-				<h5>{keys[x]}	:	{value}</h5>
+				<div><b>{keys[x]}	:	</b>{value}</div>
 
 
 			</div>

@@ -23,3 +23,9 @@ ta{
 {
     text-align: center;
 }
+
+.tabWidth
+{
+    width: 100%;
+    overflow-x: visible;
+}
