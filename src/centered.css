@@ -29,3 +29,34 @@ ta{
     width: 100%;
     overflow-x: visible;
 }
+
+.left_div{
+    width: Xu;
+   height: Yu;
+   position: absolute;
+   top: 25%;
+   left: 2%;
+   margin-left: -(X/2)u;
+   margin-top: -(Y/2)u;
+}
+
+.center_div{
+    width: Xu;
+   height: Yu;
+   position: absolute;
+   top: 25%;
+   left: 45%;
+   margin-left: -(X/2)u;
+   margin-top: -(Y/2)u;
+}
+
+
+.right_div{
+    width: Xu;
+   height: Yu;
+   position: absolute;
+   top: 50%;
+   left: 820%;
+   margin-left: -(X/2)u;
+   margin-top: -(Y/2)u;
+}

@@ -198,19 +198,19 @@ class First extends Component
 						<Navbar color="light" light expand="md">
 							<div className="container">
 							<Nav navbar>
-							<NavItem>
+							<div className = "center_div">
 							<Link to = "/myevents">
 								<a>Assigned To Me({myeventscount})</a>
 							</Link>
-							</NavItem>
-							<NavItem>
+							</div>
+							<div className = "left_div">
 							<Link to = "/severityevents">
 								<a>Filter By Severity ({sevcount})</a>
 							</Link>
-							</NavItem>
+							</div>
 							
 							
-								<UncontrolledDropdown setActiveFromChild direction = "left">
+								<UncontrolledDropdown setActiveFromChild direction = "left" className = "right_div">
 								<DropdownToggle tag="a" className="nav-link" caret>
 									Filter By Events
 								</DropdownToggle>
