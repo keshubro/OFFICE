@@ -52,6 +52,7 @@ class Authentication extends Component
        if(dd.name === this.state.value)
        {
          this.setState({valid: true, x: 1, value: dd.name, email: dd.email});
+         this.state.cookies.set('sevlevel', dd.severityAccessLevel, { path: '/' });
 
        }
        // else{

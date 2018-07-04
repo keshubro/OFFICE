@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-class EventsFilter extends Component
+class SeverityFilter extends Component
 {
 
     constructor(props)
@@ -23,49 +23,44 @@ class EventsFilter extends Component
 
     componentDidMount()
 	{
+        fetch('http://203.17.194.45/eventApp/events/all')
+        .then(results =>
+        results.json()
+        )
+        .then(data => this.setState({data: data}));
+        console.log(this.state.data);
        
-		console.log("componentDidMount");
+		
 		fetch('http://203.17.194.45/eventApp/events/typeAgg')
 	    .then(results =>
 	      results.json()
 	    )
         .then(data => this.setState({events: data}));
         
-        console.log("componentDidMount");
-		  fetch('http://203.17.194.45/eventApp/events/all')
+        
+		  fetch('http://203.17.194.45/eventApp/events/sevAgg')
 	    .then(results =>
 	      results.json()
 	    )
-		.then(data => this.setState({data: data, len: data.length}));
+		.then(data => this.setState({sev: data}));
     }
 
     render()
     {
-
        
        
-        var str = this.props.location.pathname.substring(9);
-
          //Variables declaration
          var keys;var extraKeys; var extraValues; var val;
          var extraDatakeys; var extraDatavalues; var extraAsskeys; var extraAssvalues;
          var valuesMapped; var ob; var ob1; 
+
+         
+         var sevlevel = this.state.cookies.get('sevlevel');
          
         if(this.state.events !==null && this.state.data !== null)
         {
-            const count = this.state.events.map((ev) => {
-                if(ev.id === str)
-                {
-                    return ev.count;
-                }
-                else{
-                    return null;
-                }
-            });
-
-
             var dd = this.state.data.map((d) => {
-                if(d.type === str)
+                if(d.severity <= sevlevel)
                 {
                     val = Object.values(d);
                     keys = Object.keys(d);
@@ -90,7 +85,7 @@ class EventsFilter extends Component
                     else{
                         ob1 = extraValues[1];
                     }
-                  let valuesMapped = val.map((v) => <Convert value = {v} keys = {keys} />);
+                    let valuesMapped = val.map((v) => <Convert value = {v} keys = {keys} />);
                     
                     return(
                         
@@ -111,65 +106,65 @@ class EventsFilter extends Component
             });
             
     
-                if(this.state.cookies.get('name') == 'null')
-                {
-                    
-                    return(
-    
-                        <div>You arent logged in</div>
-    
-                    );
-    
-                }
-    
-                else if(this.state.cookies.get('name') != 'null' && this.state.events !== null){
-				
-				
-                    return(
-                        <div>
-                           
-                           
-                            <Table > 
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>ID</TableCell>
-                                        <TableCell>TYPE 
-                                            
-                                        </TableCell>
-                                        <TableCell >SEVERITY</TableCell>
-                                        <TableCell >EVENT TIME</TableCell>
-                                        <TableCell >DATA</TableCell>
-                                        <TableCell >ASSIGNED TO</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    
-                                    {dd}
-                                    
-                                </TableBody>
-                            </Table>
-                        </div>
-                    );
-                }
+            if(this.state.cookies.get('name') == 'null')
+            {
+                
+                return(
+
+                    <div>You arent logged in</div>
+
+                );
+
+            }
+
+            else if(this.state.cookies.get('name') != 'null' && this.state.events !== null){
+            
+            
+                return(
+                    <div>
+                        
+                        
+                        <Table > 
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>ID</TableCell>
+                                    <TableCell>TYPE 
+                                        
+                                    </TableCell>
+                                    <TableCell >SEVERITY</TableCell>
+                                    <TableCell >EVENT TIME</TableCell>
+                                    <TableCell >DATA</TableCell>
+                                    <TableCell >ASSIGNED TO</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                
+                                {dd}
+                                
+                            </TableBody>
+                        </Table>
+                    </div>
+                );
+            }
             
                 
       
 
 
-        //    return(<div>There are {count} events of "{str}" type</div>);
         }
-
         return(<div>Loading...</div>);
+
     }
 }
 
 const Convert = ({value}) => {
 	
     
-	if(!isNaN(value))
+	
+	if(!isNaN(value) && value.toString().length>=10)
 	{
 		
-		if(value.toString().length)
+		if(value.toString().length<13)
 		{
 			value = value * 1000;
 		}
@@ -245,6 +240,4 @@ function ExtractAss(props)
 	return(<div>{items}</div>);
 }
 
-    
-export default EventsFilter;
-        
+export default SeverityFilter;

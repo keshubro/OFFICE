@@ -29,7 +29,9 @@ class First extends Component
 			len: null,
 			cookies: new Cookies,
 			events: null,
-			evlen: null
+			evlen: null,
+			myevents: null,
+			sev: null
 		};
 	}
 	
@@ -53,7 +55,21 @@ class First extends Component
 	    .then(results =>
 	      results.json()
 	    )
-	    .then(data => this.setState({events: data, evlen: data.length}));
+		.then(data => this.setState({events: data, evlen: data.length}));
+		
+		console.log("componentDidMount");
+		  fetch('http://203.17.194.45/eventApp/events/userAgg')
+	    .then(results =>
+	      results.json()
+	    )
+		.then(data => this.setState({myevents: data}));
+
+		
+		fetch('http://203.17.194.45/eventApp/events/sevAgg')
+	    .then(results =>
+	      results.json()
+	    )
+		.then(data => this.setState({sev: data}));
     }
     
     render()
@@ -66,7 +82,19 @@ class First extends Component
         //Variables declaration
         var keys;var extraKeys; var extraValues; var val;
         var extraDatakeys; var extraDatavalues; var extraAsskeys; var extraAssvalues;
-		var valuesMapped; var ob; var ob1;
+		var valuesMapped; var ob; var ob1; var myeventscount = 0; var sevcount = 0;
+
+		if(this.state.sev !== null){
+			for(var i = 0; i<this.state.sev.length; i++)
+			{
+				if(this.state.sev[i].id <= this.state.cookies.get('sevlevel'))
+				{
+					sevcount += this.state.sev[i].count;
+				}
+			}
+		}
+
+		
 		
 		if(this.state.events !== null)
         {
@@ -77,6 +105,11 @@ class First extends Component
         if(this.state.data !== null)
 		{
             var dd = this.state.data.map((d) => {
+				if(d.assignedTo !== null)
+				if(d.assignedTo.name === name)
+				{
+					myeventscount = myeventscount + 1;
+				}
 
                 val = Object.values(d);
                 keys = Object.keys(d);
@@ -143,11 +176,31 @@ class First extends Component
 				
 									
 				var yo = this.state.events.map((ev) => <DropdownItem tag="a" href={`/details/${ev.id}`}>{ev.id}({ev.count})</DropdownItem>);
+				if(this.state.myevents !== null){
+				var myeventscount = this.state.myevents.map((me) =>
+							{
+								if(me.id == name)
+								{
+									return me.count;
+								}
+								else{
+									return null;
+								}
+							}
+						);
+					}
                 return(
 					<div>
-						<Navbar color="light" light expand="sm">
-							<Nav className="ml-auto" navbar>
-								
+
+						
+
+
+						<Navbar color="light" light expand="md">
+							<div className="container">
+							<Nav navbar>
+							
+							
+							
 								<UncontrolledDropdown setActiveFromChild direction = "left">
 								<DropdownToggle tag="a" className="nav-link" caret>
 									Filter By Events
@@ -160,6 +213,7 @@ class First extends Component
 								</DropdownMenu>
 								</UncontrolledDropdown>
 							</Nav>
+							</div>
 						</Navbar>
 
 						<Table > 
@@ -200,10 +254,10 @@ const Convert = ({value}, {kk}) => {
 	
 	
 
-	if(!isNaN(value))
+	if(!isNaN(value) && value.toString().length>10)
 	{
 		
-		if(value.toString().length)
+		if(value.toString().length<13)
 		{
 			value = value * 1000;
 		}

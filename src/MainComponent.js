@@ -8,6 +8,8 @@ import Profile from './ProfileComponent';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Users from './UsersComponent';
 import EventsFilter from './EventsFilterComponent';
+import MyEventsFilter from './MyEventsFilterComponent';
+import SeverityFilter from './SeverityFilterComponent';
 
 class Main extends Component
 {
@@ -39,6 +41,8 @@ class Main extends Component
             <Route path = '/profile' component = {Profile} />
             <Route path = '/users' component = {Users} />
             <Route path = '/details/:eventId' component = {EventsFilter} />
+            <Route path = '/myevents' component = {MyEventsFilter} />
+            <Route path = '/severityevents' component = {SeverityFilter} />
             <Redirect to = '/login' />
         </Switch>
         </MuiThemeProvider>
