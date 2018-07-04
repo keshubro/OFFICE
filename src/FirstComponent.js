@@ -94,6 +94,18 @@ class First extends Component
 			}
 		}
 
+		if(this.state.myevents !== null){
+			for(var i = 0; i<this.state.myevents.length; i++)
+			{
+				if(this.state.myevents[i].id === this.state.cookies.get('name'))
+				{
+					console.log('yy');
+					console.log(this.state.myevents[i].count);
+					myeventscount = this.state.myevents[i].count;
+				}
+			}
+		}
+
 		
 		
 		if(this.state.events !== null)
@@ -105,11 +117,7 @@ class First extends Component
         if(this.state.data !== null)
 		{
             var dd = this.state.data.map((d) => {
-				if(d.assignedTo !== null)
-				if(d.assignedTo.name === name)
-				{
-					myeventscount = myeventscount + 1;
-				}
+
 
                 val = Object.values(d);
                 keys = Object.keys(d);
@@ -177,18 +185,10 @@ class First extends Component
 									
 				var yo = this.state.events.map((ev) => <DropdownItem tag="a" href={`/details/${ev.id}`}>{ev.id}({ev.count})</DropdownItem>);
 				if(this.state.myevents !== null){
-				var myeventscount = this.state.myevents.map((me) =>
-							{
-								if(me.id == name)
-								{
-									return me.count;
-								}
-								else{
-									return null;
-								}
-							}
-						);
+				
 					}
+					console.log("Yes");
+					console.log(myeventscount);
                 return(
 					<div>
 
@@ -198,6 +198,7 @@ class First extends Component
 						<Navbar color="light" light expand="md">
 							<div className="container">
 							<Nav navbar>
+							
 							<div className = "center_div">
 							<Link to = "/myevents">
 								<a>Assigned To Me({myeventscount})</a>
