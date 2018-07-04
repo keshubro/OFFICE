@@ -198,7 +198,16 @@ class First extends Component
 						<Navbar color="light" light expand="md">
 							<div className="container">
 							<Nav navbar>
-							
+							<NavItem>
+							<Link to = "/myevents">
+								<a>Assigned To Me({myeventscount})</a>
+							</Link>
+							</NavItem>
+							<NavItem>
+							<Link to = "/severityevents">
+								<a>Filter By Severity ({sevcount})</a>
+							</Link>
+							</NavItem>
 							
 							
 								<UncontrolledDropdown setActiveFromChild direction = "left">
