@@ -143,9 +143,10 @@ class First extends Component
 								</DropdownToggle>
 								<DropdownMenu>
 
-									<DropdownItem tag="a" href={`/details/${this.state.events[0].id}`} active>tt</DropdownItem>
+									<DropdownItem tag="a" href={`/details/${this.state.events[0].id}`} active>{this.state.events[0].id}</DropdownItem>
 									<DropdownItem tag="a" href={`/details/${this.state.events[1].id}`} >ee</DropdownItem>
 									<DropdownItem tag="a" href={`/details/${this.state.events[2].id}`}>xx</DropdownItem>
+									<DropdownItem tag="a" href={`/details/${this.state.events[3].id}`}>yy</DropdownItem>
 								
 								</DropdownMenu>
 								</UncontrolledDropdown>

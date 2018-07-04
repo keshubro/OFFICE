@@ -1,4 +1,12 @@
 import React, { Component } from 'react';
+import Cookies from 'universal-cookie';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 class EventsFilter extends Component
 {
@@ -7,145 +15,151 @@ class EventsFilter extends Component
     {
         super(props);
         this.state = {
+            cookies: new Cookies,
             events: null,
+            data: null
         }
     }
 
     componentDidMount()
 	{
+       
+		console.log("componentDidMount");
+		fetch('http://203.17.194.45/eventApp/events/typeAgg')
+	    .then(results =>
+	      results.json()
+	    )
+        .then(data => this.setState({events: data}));
+        
         console.log("componentDidMount");
 		  fetch('http://203.17.194.45/eventApp/events/all')
 	    .then(results =>
 	      results.json()
 	    )
 		.then(data => this.setState({data: data, len: data.length}));
-
-		console.log("componentDidMount");
-		fetch('http://203.17.194.45/eventApp/events/typeAgg')
-	    .then(results =>
-	      results.json()
-	    )
-	    .then(data => this.setState({events: data}));
     }
 
     render()
     {
-        var keys;var extraKeys; var extraValues; var val;
-        var extraDatakeys; var extraDatavalues; var extraAsskeys; var extraAssvalues;
-        var valuesMapped; var ob; var ob1;
+       
         var str = this.props.location.pathname.substring(9);
 
-        if(this.state.data !== null)
+         //Variables declaration
+         var keys;var extraKeys; var extraValues; var val;
+         var extraDatakeys; var extraDatavalues; var extraAsskeys; var extraAssvalues;
+         var valuesMapped; var ob; var ob1;
+         
+        if(this.state.events !==null && this.state.data !== null)
         {
-
-                        var dd = this.state.data.map((d) => {
-
-                            if(str === d.type)
-                            {
-                                val = Object.values(d);
-                                keys = Object.keys(d);
-                                extraKeys = keys.splice(4,2);
-                                extraValues = val.splice(4,2);
-                                
-                                if(extraValues[0] !== null && typeof extraValues[0] === 'object'){
-                                    
-                                    ob = <ExtractData values = {extraValues[0]} />
-                                }
-
-                                else{
-                                    ob = <div>{extraValues[0]}</div>;
-                                }
-
-                                if(extraValues[1] !== null && typeof extraValues[1] === 'object'){
-                                    
-                                    ob1 = <ExtractAss values = {extraValues[1]} />
-                                }
-
-                                else{
-                                    ob1 = extraValues[1];
-                                }
-                                
-                                let valuesMapped = val.map((v) => <Convert value = {v} keys = {keys} />);
-                                
-                                return(
-                                    
-                                    <TableRow>
-                                        
-                                        {valuesMapped}
-                                        
-                                        <TableCell> 
-                                            {ob}
-                                        </TableCell>
-                                        
-                                        <TableCell >
-                                            {ob1}
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                        
-
-                            if(this.state.cookies.get('name') == 'null')
-                            {
-                                
-                                return(
-
-                                    <div>You arent logged in</div>
-
-                                );
-
-                            }
-
-                            else if(this.state.cookies.get('name') != 'null' && this.state.events !== null){
-                                
-                                
-                                return(
-                                    <Table > 
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>ID</TableCell>
-                                                    <TableCell>TYPE 
-                                                        
-                                                    </TableCell>
-                                                    <TableCell >SEVERITY</TableCell>
-                                                    <TableCell >EVENT TIME</TableCell>
-                                                    <TableCell >DATA</TableCell>
-                                                    <TableCell >ASSIGNED TO</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                
-                                                {dd}
-                                                
-                                            </TableBody>
-                                        </Table>
-                                );
-                            }
-                        }
-                        
-                    }
+            const count = this.state.events.map((ev) => {
+                if(ev.id === str)
+                {
+                    return ev.count;
                 }
-            return(<div>Loading...</div>);
-      
-       
-                
-        
+                else{
+                    return null;
+                }
+            });
 
-        console.log(str);
-       if(this.state.events !== null && this.state.data !== null)
-        {
-            console.log("Events FIlter");
-            console.log(this.state.events[0].id);
-            const x = this.state.events.map((d) => d.id === str ? d.count : null)
-            return(
-                <div>{x}</div>
-            );
+
+            var dd = this.state.data.map((d) => {
+                if(d.type === str)
+                {
+                    val = Object.values(d);
+                    keys = Object.keys(d);
+                    extraKeys = keys.splice(4,2);
+                    extraValues = val.splice(4,2);
+                    
+    
+                    if(extraValues[0] !== null && typeof extraValues[0] === 'object'){
+                        
+                        ob = <ExtractData values = {extraValues[0]} />
+                    }
+    
+                    else{
+                        ob = <div>{extraValues[0]}</div>;
+                    }
+    
+                    if(extraValues[1] !== null && typeof extraValues[1] === 'object'){
+                        
+                        ob1 = <ExtractAss values = {extraValues[1]} />
+                    }
+    
+                    else{
+                        ob1 = extraValues[1];
+                    }
+                  let valuesMapped = val.map((v) => <Convert value = {v} keys = {keys} />);
+                    
+                    return(
+                        
+                        <TableRow>
+                            
+                            {valuesMapped}
+                            
+                            <TableCell> 
+                                {ob}
+                            </TableCell>
+                            
+                            <TableCell >
+                                {ob1}
+                            </TableCell>
+                        </TableRow>
+                    );
+                }
+            });
+            
+    
+                if(this.state.cookies.get('name') == 'null')
+                {
+                    
+                    return(
+    
+                        <div>You arent logged in</div>
+    
+                    );
+    
+                }
+    
+                else if(this.state.cookies.get('name') != 'null' && this.state.events !== null){
+				
+				
+                    return(
+                        <div>
+                            <p><h5>There are {count} events of "{str}" type</h5></p>
+                            <br/>
+                            <Table > 
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>TYPE 
+                                            
+                                        </TableCell>
+                                        <TableCell >SEVERITY</TableCell>
+                                        <TableCell >EVENT TIME</TableCell>
+                                        <TableCell >DATA</TableCell>
+                                        <TableCell >ASSIGNED TO</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    
+                                    {dd}
+                                    
+                                </TableBody>
+                            </Table>
+                        </div>
+                    );
+                }
+            
+                
+      
+
+
+        //    return(<div>There are {count} events of "{str}" type</div>);
         }
 
-       return(<div>Loading</div>);
+        return(<div>Loading...</div>);
     }
 }
-
-
 
 const Convert = (props, x) => {
 	
@@ -213,6 +227,6 @@ function ExtractAss(props)
 	return(<div>{items}</div>);
 }
 
-export default First;
-
+    
 export default EventsFilter;
+        
