@@ -161,12 +161,28 @@ class EventsFilter extends Component
     }
 }
 
-const Convert = (props, x) => {
+const Convert = ({value}) => {
+	
+    
+	if(!isNaN(value))
+	{
+		
+		if(value.toString().length)
+		{
+			value = value * 1000;
+		}
+		return(
+
+			<TableCell>
+				{new Date(value).toString().substring(0, 24)}
+			</TableCell>
+		);
+	}
 	
     return(
         
 		<TableCell>
-			{props.value}
+			{value}
 		</TableCell>
        
     );
