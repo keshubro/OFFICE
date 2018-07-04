@@ -58,6 +58,9 @@ class First extends Component
     
     render()
 	{
+
+//		console.log(new Date(1234567890000));
+
         var name =this.state.cookies.get('name');
         
         //Variables declaration
@@ -71,7 +74,7 @@ class First extends Component
             console.log(this.state.events[0].id);
         }
 
-        if(this.state.data != null)
+        if(this.state.data !== null)
 		{
             var dd = this.state.data.map((d) => {
 
@@ -80,7 +83,7 @@ class First extends Component
                 extraKeys = keys.splice(4,2);
 				extraValues = val.splice(4,2);
 				
-
+				console.log("Key" + keys[0]);
 				if(extraValues[0] !== null && typeof extraValues[0] === 'object'){
 					
 					ob = <ExtractData values = {extraValues[0]} />
@@ -98,7 +101,14 @@ class First extends Component
 				else{
 					ob1 = extraValues[1];
 				}
-              let valuesMapped = val.map((v) => <Convert value = {v} keys = {keys} />);
+              	let valuesMapped = val.map((v) =>
+					
+					<Convert value = {v} kk = {keys[0]} />
+					
+					
+				
+			
+				);
 				
                 return(
 					
@@ -131,7 +141,8 @@ class First extends Component
 
             else if(this.state.cookies.get('name') != 'null' && this.state.events !== null){
 				
-				
+									
+				var yo = this.state.events.map((ev) => <DropdownItem tag="a" href={`/details/${ev.id}`}>{ev.id}({ev.count})</DropdownItem>);
                 return(
 					<div>
 						<Navbar color="light" light expand="sm">
@@ -142,11 +153,9 @@ class First extends Component
 									Filter By Events
 								</DropdownToggle>
 								<DropdownMenu>
-
-									<DropdownItem tag="a" href={`/details/${this.state.events[0].id}`} active>{this.state.events[0].id}</DropdownItem>
-									<DropdownItem tag="a" href={`/details/${this.state.events[1].id}`} >ee</DropdownItem>
-									<DropdownItem tag="a" href={`/details/${this.state.events[2].id}`}>xx</DropdownItem>
-									<DropdownItem tag="a" href={`/details/${this.state.events[3].id}`}>yy</DropdownItem>
+									
+									
+									{yo}
 								
 								</DropdownMenu>
 								</UncontrolledDropdown>
@@ -186,12 +195,30 @@ class First extends Component
 
 }
 
-const Convert = (props, x) => {
+const Convert = ({value}, {kk}) => {
+
+	
+	
+
+	if(!isNaN(value))
+	{
+		
+		if(value.toString().length)
+		{
+			value = value * 1000;
+		}
+		return(
+
+			<TableCell>
+				{new Date(value).toString().substring(0, 24)}
+			</TableCell>
+		);
+	}
 	
     return(
         
 		<TableCell>
-			{props.value}
+			{value}
 		</TableCell>
        
     );
