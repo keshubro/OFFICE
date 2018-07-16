@@ -75,7 +75,7 @@ class First extends Component
     render()
 	{
 
-//		console.log(new Date(1234567890000));
+
 
         var name =this.state.cookies.get('name');
         
@@ -140,19 +140,49 @@ class First extends Component
 				}
 
 				else{
+					if(extraValues[1] == null)
+					{
+						
+							ob1 = "Assign This Event Now";
+						
+					}
+					else
+					{
 					ob1 = extraValues[1];
+					}
 				}
               	let valuesMapped = val.map((v) =>
 					
 					<Convert value = {v} kk = {keys[0]} />
-					
-					
-				
+		
 			
 				);
-				
-                return(
-					
+
+				//If the event hasn't been assigned yet
+				if(ob1 == "Assign This Event Now")
+				{
+					return(
+						
+						<TableRow>
+							
+							{valuesMapped}
+							
+							<TableCell> 
+								{ob}
+							</TableCell>
+							
+							<TableCell >
+								<Link to = "/assignevent">
+								{ob1}
+								</Link>
+							</TableCell>
+						</TableRow>
+					);
+				}
+
+				//If the event has already been assigned, no need to hyperlink to "assignevent" component
+				return(
+						
 					<TableRow>
 						
 						{valuesMapped}
@@ -162,7 +192,9 @@ class First extends Component
 						</TableCell>
 						
 						<TableCell >
+							
 							{ob1}
+							
 						</TableCell>
 					</TableRow>
 				);
@@ -264,7 +296,7 @@ const Convert = ({value}, {kk}) => {
 	
 	
 
-	if(!isNaN(value) && value.toString().length>10)
+	if(!isNaN(value) && value.toString().length>=10)
 	{
 		
 		if(value.toString().length<13)

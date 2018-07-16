@@ -10,6 +10,8 @@ import Users from './UsersComponent';
 import EventsFilter from './EventsFilterComponent';
 import MyEventsFilter from './MyEventsFilterComponent';
 import SeverityFilter from './SeverityFilterComponent';
+import SignUp from './SignUpComponent';
+import AssignEvent from './AssignEventComponent';
 
 class Main extends Component
 {
@@ -43,6 +45,8 @@ class Main extends Component
             <Route path = '/details/:eventId' component = {EventsFilter} />
             <Route path = '/myevents' component = {MyEventsFilter} />
             <Route path = '/severityevents' component = {SeverityFilter} />
+            <Route path = '/signup' component = {SignUp} />
+            <Route path = '/assignevent' component = {AssignEvent} />
             <Redirect to = '/login' />
         </Switch>
         </MuiThemeProvider>

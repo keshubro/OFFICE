@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 class SeverityFilter extends Component
 {
@@ -60,7 +61,7 @@ class SeverityFilter extends Component
         if(this.state.events !==null && this.state.data !== null)
         {
             var dd = this.state.data.map((d) => {
-                if(d.severity <= sevlevel)
+                if(d.severity >= sevlevel)
                 {
                     val = Object.values(d);
                     keys = Object.keys(d);
@@ -83,25 +84,59 @@ class SeverityFilter extends Component
                     }
     
                     else{
-                        ob1 = extraValues[1];
+
+                        if(extraValues[1] == null)
+					    {
+						
+							ob1 = "Assign This Event Now";
+						
+					    }
+                        else
+                        {
+                            ob1 = extraValues[1];
+                        }
                     }
                     let valuesMapped = val.map((v) => <Convert value = {v} keys = {keys} />);
                     
-                    return(
-                        
-                        <TableRow>
+                    if(ob1 == "Assign This Event Now")
+				    {
+                        return(
                             
-                            {valuesMapped}
-                            
-                            <TableCell> 
-                                {ob}
-                            </TableCell>
-                            
-                            <TableCell >
-                                {ob1}
-                            </TableCell>
-                        </TableRow>
-                    );
+                            <TableRow>
+                                
+                                {valuesMapped}
+                                
+                                <TableCell> 
+                                    {ob}
+                                </TableCell>
+                                
+                                <TableCell >
+                                    <Link to = "/assignevent">
+                                        {ob1}
+                                    </Link>
+                                </TableCell>
+                            </TableRow>
+                        );
+                    }
+
+                        //If the event has already been assigned, no need to hyperlink to "assignevent" component
+                        return(
+                                                
+                            <TableRow>
+                                
+                                {valuesMapped}
+                                
+                                <TableCell> 
+                                    {ob}
+                                </TableCell>
+                                
+                                <TableCell >
+                                    
+                                    {ob1}
+                                    
+                                </TableCell>
+                            </TableRow>
+                        );
                 }
             });
             

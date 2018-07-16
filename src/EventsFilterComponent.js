@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {Link} from 'react-router-dom';
 
 class EventsFilter extends Component
 {
@@ -88,10 +89,41 @@ class EventsFilter extends Component
                     }
     
                     else{
-                        ob1 = extraValues[1];
+                        if(extraValues[1] == null)
+					    {
+						
+							ob1 = "Assign This Event Now";
+						
+					    }
+                        else
+                        {
+                            ob1 = extraValues[1];
+                        }
                     }
                   let valuesMapped = val.map((v) => <Convert value = {v} keys = {keys} />);
-                    
+
+                    //If the event hasn't been assigned yet
+				    if(ob1 == "Assign This Event Now")
+				    {
+                        return(
+                            
+                            <TableRow>
+                                
+                                {valuesMapped}
+                                
+                                <TableCell> 
+                                    {ob}
+                                </TableCell>
+                                
+                                <TableCell >
+                                    <Link to = "/assignevent">
+                                        {ob1}
+                                    </Link>
+                                </TableCell>
+                            </TableRow>
+                        );
+                    }
+                        
                     return(
                         
                         <TableRow>
