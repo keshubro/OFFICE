@@ -14,6 +14,17 @@ class AssignEvent extends Component
         }
     }
 
+    componentDidMount()
+    {
+        fetch('http://203.17.194.45/eventApp/events/all')
+        .then(results =>
+        results.json()
+        )
+        .then(data => this.setState({data: data, len: data.length}));
+        console.log("TOOO");
+        console.log(this.state.data);
+    } 
+
     
     handleChange(event) {
 

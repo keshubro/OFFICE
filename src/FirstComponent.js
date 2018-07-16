@@ -50,6 +50,7 @@ class First extends Component
 	    )
 		.then(data => this.setState({data: data, len: data.length}));
 		
+		
 
 		fetch('http://203.17.194.45/eventApp/events/typeAgg')
 	    .then(results =>
@@ -75,7 +76,8 @@ class First extends Component
     render()
 	{
 
-
+		// console.log("Toooo");
+		// console.log(this.state.data);
 
         var name =this.state.cookies.get('name');
         
@@ -173,7 +175,7 @@ class First extends Component
 							
 							<TableCell >
 								<Link to = "/assignevent">
-								{ob1}
+									{ob1}
 								</Link>
 							</TableCell>
 						</TableRow>

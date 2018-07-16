@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './centered.css';
 import Cookies from 'universal-cookie';
-import First from './FirstComponent';
 
 class SignUp extends Component
 {
@@ -19,12 +18,7 @@ class SignUp extends Component
         }
     }
 
-    componentDidMount()
-    {
-        console.log("Did Mount");
-        console.log("Name : " + this.state.name);
-        // this.setState({name: this.state.name, email: this.state.email, sevlevel: this.state.sevlevel});
-    }
+    
 
     handleChange(event)
     {
@@ -43,40 +37,24 @@ class SignUp extends Component
     {
         console.log(this.state.name);
         console.log("in submit");
-        var milliseconds = (new Date).getTime();
+
+        var url = 'http://203.17.194.45/eventApp/users';
+        var data = {"name": 'keshav'};
         
-        const name = this.state.name;
-        this.state.cookies.set('name', this.state.name, { path: '/' });
-        fetch('http://203.17.194.45/eventApp/users', {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "name": this.state.name,
-                "email": this.state.email,
-                "createdAt": milliseconds,
-                "severityAccessLevel": this.state.sevlevel,
-            })
-        })
-        .then(results =>
-            // results.json()
-            console.log(results.json())
-          );
-         
-        this.setState({done: true});
+        fetch(url, {
+          method: 'PUT', // or 'POST'
+          body: JSON.stringify(data), // data can be `string` or {object}!
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then(res => console.log(res.json()))
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response));
        
     }
 
     render()
     {
-        if(this.state.done === true)
-        {
-            return(
-                <First />
-            );
-        }
         
         return(
             
