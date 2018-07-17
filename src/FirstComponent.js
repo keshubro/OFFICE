@@ -39,10 +39,11 @@ class First extends Component
 		};
 	}
 	
-	handleClick(event)
+	handleClick(event, id)
 	{
 		this.setState = ({isSelected: !this.state.isSelected});
-		const key = event.target.key;
+		const key = id;
+		console.log(key);
 	}
 	
     
@@ -80,13 +81,11 @@ class First extends Component
     
     render()
 	{
-		var x = 0;
+		var x = -1;
 
-		// console.log("Toooo");
-		// console.log(this.state.data);
-
-        var name =this.state.cookies.get('name');
-        
+		
+        var name = this.state.cookies.get('name');
+		
         //Variables declaration
         var keys;var extraKeys; var extraValues; var val;
         var extraDatakeys; var extraDatavalues; var extraAsskeys; var extraAssvalues;
@@ -126,6 +125,7 @@ class First extends Component
 		{
             var dd = this.state.data.map((d) => {
 
+				{x++};
 				
                 val = Object.values(d);
                 keys = Object.keys(d);
@@ -171,13 +171,12 @@ class First extends Component
 				{
 					return(
 						
-						<TableRow  onClick={event => this.handleClick(event, 1)}
-											role="checkbox" 
-											selected={this.state.isSelected}>
+						<TableRow  
+											>
 							
 							{valuesMapped}
 							
-							<TableCell> 
+							<TableCell > 
 								{ob}
 							</TableCell>
 							
@@ -187,7 +186,9 @@ class First extends Component
 								</Link>
 							</TableCell>
 							<TableCell>
-							<Checkbox onChange ={ this.handleClick }/>
+							<Checkbox checked={this.state.antoine}
+									  onChange={this.handleChange}
+									  value={x}/>
 						</TableCell>
 						</TableRow>
 					);
@@ -196,10 +197,7 @@ class First extends Component
 				//If the event has already been assigned, no need to hyperlink to "assignevent" component
 				return(
 						
-					<TableRow  onClick={event => this.handleClick(event, 1)}
-										role="checkbox" 
-										selected={this.state.isSelected}
-							   >
+					<TableRow  >
 							  
 						
 						{valuesMapped}
@@ -213,8 +211,10 @@ class First extends Component
 							{ob1}
 							
 						</TableCell>
-						<TableCell>
-							<Checkbox onChange ={ this.handleClick }/>
+						<TableCell key = {x}>
+							<Checkbox checked={this.state.antoine}
+									  onChange={this.handleChange}
+									  value={x}/>
 						</TableCell>
 					</TableRow>
 				);
@@ -335,6 +335,14 @@ const Convert = ({value}, {kk}) => {
 			</TableCell>
 		);
 	}
+
+	else if(value.charAt(0) == '5')
+	{
+		<TableCell onClick={event => this.handleClick(event, {value})}>
+			{value}
+		</TableCell>
+	}
+	
 	
     return(
         
