@@ -14,6 +14,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Navbar, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import EventsFilter from './EventsFilterComponent';
+import Checkbox from '@material-ui/core/Checkbox';
+import { easing } from '@material-ui/core/styles/transitions';
 
 
 class First extends Component
@@ -31,13 +33,16 @@ class First extends Component
 			events: null,
 			evlen: null,
 			myevents: null,
-			sev: null
+			sev: null,
+			isSelected: false,
+			selectedRowIds: []
 		};
 	}
 	
-	handleClick(e)
+	handleClick(event)
 	{
-		console.log("clicked");
+		this.setState = ({isSelected: !this.state.isSelected});
+		const key = event.target.key;
 	}
 	
     
@@ -75,6 +80,7 @@ class First extends Component
     
     render()
 	{
+		var x = 0;
 
 		// console.log("Toooo");
 		// console.log(this.state.data);
@@ -120,7 +126,7 @@ class First extends Component
 		{
             var dd = this.state.data.map((d) => {
 
-
+				
                 val = Object.values(d);
                 keys = Object.keys(d);
                 extraKeys = keys.splice(4,2);
@@ -165,7 +171,9 @@ class First extends Component
 				{
 					return(
 						
-						<TableRow>
+						<TableRow  onClick={event => this.handleClick(event, 1)}
+											role="checkbox" 
+											selected={this.state.isSelected}>
 							
 							{valuesMapped}
 							
@@ -178,6 +186,9 @@ class First extends Component
 									{ob1}
 								</Link>
 							</TableCell>
+							<TableCell>
+							<Checkbox onChange ={ this.handleClick }/>
+						</TableCell>
 						</TableRow>
 					);
 				}
@@ -185,7 +196,11 @@ class First extends Component
 				//If the event has already been assigned, no need to hyperlink to "assignevent" component
 				return(
 						
-					<TableRow>
+					<TableRow  onClick={event => this.handleClick(event, 1)}
+										role="checkbox" 
+										selected={this.state.isSelected}
+							   >
+							  
 						
 						{valuesMapped}
 						
@@ -198,10 +213,14 @@ class First extends Component
 							{ob1}
 							
 						</TableCell>
+						<TableCell>
+							<Checkbox onChange ={ this.handleClick }/>
+						</TableCell>
 					</TableRow>
 				);
             });
         
+			{x++};
 
             if(this.state.cookies.get('name') == 'null')
             {
@@ -260,7 +279,7 @@ class First extends Component
 							</div>
 						</Navbar>
 
-						<Table > 
+						<Table  multiSelectable={true} onRowSelection={this.onRowSelection}> 
 							<TableHead>
 								<TableRow>
 									<TableCell>ID</TableCell>
@@ -271,6 +290,7 @@ class First extends Component
 									<TableCell >EVENT TIME</TableCell>
 									<TableCell >DATA</TableCell>
 									<TableCell >ASSIGNED TO</TableCell>
+									<TableCell >Assign Selected Events</TableCell> 
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -289,7 +309,10 @@ class First extends Component
         return(<div>Loading...</div>);
     }
 
-
+	onRowSelection(rows)
+	{
+		console.log(rows);
+	}
 
 }
 

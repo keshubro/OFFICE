@@ -13,7 +13,7 @@ class SignUp extends Component
         this.state = {
             name: '',
             email: '',
-            sevlevel: 0,
+            
             cookies: new Cookies
         }
     }
@@ -35,21 +35,36 @@ class SignUp extends Component
 
     handleSubmit(event)
     {
-        console.log(this.state.name);
-        console.log("in submit");
 
-        var url = 'http://203.17.194.45/eventApp/users';
-        var data = {"name": 'keshav'};
+        var milliseconds = (new Date).getTime();
         
-        fetch(url, {
-          method: 'PUT', // or 'POST'
-          body: JSON.stringify(data), // data can be `string` or {object}!
-          headers:{
-            'Content-Type': 'application/json'
-          }
-        }).then(res => console.log(res.json()))
-        .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
+        const name = this.state.name;
+        this.state.cookies.set('name', this.state.name, { path: '/' });
+
+        const url = 'http://203.17.194.45/eventApp/users';
+        
+        let data = {
+            name: this.state.name,
+            email: this.state.email,
+            createdAt: milliseconds
+        }
+        
+        let myHeaders = new Headers();
+myHeaders.append('Content-Type', 'application/json');
+
+        let fetchData = { 
+            method: 'PUT', 
+            body: JSON.stringify(data),
+            headers: myHeaders
+        }
+        fetch(url, fetchData)
+        .then(function() {
+            // Handle response you get from the server
+            console.log("Done");
+        })
+        .catch(function(error){
+console.log(error);
+        });
        
     }
 
@@ -69,12 +84,7 @@ class SignUp extends Component
                     <input type="email" value={this.state.email} name = "email" onChange={this.handleChange}/>
                 </label>
                 <br/>
-                <div  className = "sev_div">
-                <label>
-                    Severity Access Level:
-                    <input type="number" value={this.state.value} name = "sevlevel" onChange={this.handleChange}/>
-                </label>
-                </div>
+               
                 <br/>
                     <input type="submit" value="Submit" />
         
